@@ -54,7 +54,7 @@
 
         /* Section boutons */
         .buttons {
-            text-align: right;
+            text-align: left;
             margin: 20px 0;
         }
 
@@ -113,6 +113,18 @@
                 opacity: 1;
             }
         }
+        .buttonssend {
+        
+            text-align: center;
+            width: 200px;
+            margin-top: 7px;
+        }
+        .buttonsgenecop {
+            text-align: center;
+            width: 200px;
+            margin-top: 7px;
+            margin-bottom: 7px;
+        }
     </style>
 </head>
 <body>
@@ -123,9 +135,9 @@
             <pre id="modified-message"></pre>
         </div>
         <div class="buttons">
-            <button id="generateButton">Générer</button>
-            <button id="copyButton">Copier</button>
-            <button id="sendMessageButton">Envoyer Message</button>
+            <button class="buttonsgenecop" id="generateButton">Générer</button>
+            <button class="buttonsgenecop" id="copyButton">Copier</button>
+            <button class="buttonssend" id="sendMessageButton">Ouvrir</button>
 
         </div>
 
