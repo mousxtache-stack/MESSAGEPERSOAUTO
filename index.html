@@ -237,5 +237,43 @@ CGV : www.tcat.fr/cgv-ticket-sms`;
             originalMessageElement.classList.add('fade-in');
         });
     </script>
+    <script>
+        // Fonction pour copier le texte dans le presse-papiers
+        document.getElementById('copyButton').addEventListener('click', function () {
+            const modifiedMessage = document.getElementById('modified-message').textContent;
+    
+            // Vérification si l'API clipboard est supportée
+            if (navigator.clipboard) {
+                // Utilisation de l'API clipboard moderne
+                navigator.clipboard.writeText(modifiedMessage)
+                    .then(() => {
+                        alert('Texte copié avec succès dans le presse-papiers !');
+                    })
+                    .catch(err => {
+                        alert("Erreur : Impossible de copier le texte.");
+                        console.error("Erreur lors de la copie :", err);
+                    });
+            } else {
+                // Alternative pour les anciens navigateurs (fallback)
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = modifiedMessage;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        alert('Texte copié avec succès dans le presse-papiers !');
+                    } else {
+                        alert("Erreur : Impossible de copier le texte.");
+                    }
+                } catch (err) {
+                    alert("Erreur : Impossible de copier le texte.");
+                    console.error("Erreur lors de la commande de copie :", err);
+                }
+                document.body.removeChild(tempTextArea);
+            }
+        });
+    </script>
+    
 </body>
 </html>
