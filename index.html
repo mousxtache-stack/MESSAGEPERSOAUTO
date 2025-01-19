@@ -125,6 +125,8 @@
         <div class="buttons">
             <button id="generateButton">Générer</button>
             <button id="copyButton">Copier</button>
+            <button id="sendMessageButton">Envoyer Message</button>
+
         </div>
 
         <div>
@@ -273,6 +275,22 @@ CGV : www.tcat.fr/cgv-ticket-sms`;
                 document.body.removeChild(tempTextArea);
             }
         });
+        document.getElementById('sendMessageButton').addEventListener('click', function() {
+    const modifiedMessage = document.getElementById('modified-message').textContent;
+
+    // Préparer le numéro de téléphone
+    const phoneNumber = "0764117899"; // Remplace par le numéro réel
+    // Encoder le message pour qu'il soit adapté à une URL
+    const encodedMessage = encodeURIComponent(modifiedMessage); 
+
+    // Créer un lien sms: avec un numéro de téléphone et un message pré-rempli
+    const smsLink = `sms:${phoneNumber}?body=${encodedMessage}`;
+
+    // Rediriger l'utilisateur vers l'application de messages
+    window.location.href = smsLink;
+});
+
+
     </script>
     
 </body>
