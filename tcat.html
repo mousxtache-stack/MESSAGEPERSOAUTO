@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Script</title>
+    <style>
+        /* Reset de base */
+        body, h1, h2, pre {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* Section générale */
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        pre {
+            background-color: #f7f7f7;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 14px;
+            font-family: Consolas, 'Courier New', monospace;
+        }
+
+        /* Section boutons */
+        .buttons {
+            text-align: right;
+            margin: 20px 0;
+        }
+
+        button {
+            background: linear-gradient(45deg, black, gray);
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 15px 30px;
+            border-radius: 100px; 
+            cursor: pointer;
+            outline: none;
+            position: relative; 
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px black;
+            width: 10%; 
+            max-width: 1000px; 
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #388e3c;
+        }
+
+        /* Style pour le bouton "Afficher le message original" */
+        #toggleOriginalButton {
+            width: 100%; /* Ou la taille que tu veux, par exemple 50% ou 200px */
+            max-width: 300px; /* Limite la taille max pour éviter que ce bouton soit trop large sur les écrans larges */
+            margin-top: 20px; /* Espacement */
+        }
+
+        .output {
+            margin-top: 20px;
+        }
+
+        /* Ajouter un peu d'ombre à la boîte de contenu */
+        .output pre {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Effet de fondu */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Script de Modification du Message</h1>
+        <div>
+            <h2>Message Modifié :</h2> 
+            <pre id="modified-message"></pre>
+        </div>
+        <div class="buttons">
+            <button id="generateButton">Générer</button>
+            <button id="copyButton">Copier</button>
+        </div>
+
+        <div>
+            <h2>Message Original :</h2>
+            <pre id="original-message" style="display: none;"></pre>
+            <div class="buttons">
+                <button id="toggleOriginalButton">Afficher le message original</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateRandomCharacters(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                result += characters[randomIndex];
+            }
+            return result;
+        }
+
+        function generateRandomNumber() {
+            let result = '';
+            for (let i = 0; i < 10; i++) {
+                const randomDigit = Math.floor(Math.random() * 10);
+                result += randomDigit;
+                if (i % 2 !== 0 && i !== 9) {
+                    result += "'"; // Ajoute une apostrophe après chaque deux chiffres
+                }
+            }
+            return result;
+        }
+
+        function updateMessageDetails(message) {
+            const now = new Date(); // Date et heure actuelles
+
+            // Formater la date
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = String(now.getFullYear()).slice(2); // Année sur 2 chiffres
+            const formattedDate = `${day}.${month}.${year}`;
+
+            // Formater l'heure actuelle
+            const hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            // Calculer l'heure de fin (ajouter 1 heure)
+            const endHours = (hours + 1) % 24; // Gérer le dépassement de 24 heures
+            const formattedTimeRange = `De ${String(hours).padStart(2, '0')}:${minutes} à ${String(endHours).padStart(2, '0')}:${minutes}`;
+
+            // Générer 4 caractères aléatoires
+            const randomLastCharacters = generateRandomCharacters(4);
+
+            // Remplacer directement les sections nécessaires dans le message
+            const lines = message.split('\n'); // Découper le message en lignes
+            lines[3] = `Le ${formattedDate}`; // Modifier la ligne contenant la date
+            lines[4] = formattedTimeRange; // Modifier la ligne contenant la plage horaire
+
+            // Remplacer le numéro avec les caractères aléatoires
+            lines[8] = `0764117899${randomLastCharacters}`; // Remplacer le numéro à la ligne 8 avec les caractères générés
+
+            // Remplacer `77'57'89'42'08'88` par un numéro aléatoire avec 10 chiffres et apostrophes
+            lines[6] = generateRandomNumber(); // Remplacer la ligne contenant le numéro avec un nouveau généré aléatoirement
+
+            // Supprimer la ligne contenant uniquement `0764117899E9RL`
+            const cleanedLines = lines.filter((line, index) => {
+                // Nous gardons uniquement les lignes qui ne contiennent pas `0764117899E9RL`
+                return !(line.includes('0764117899E9RL'));
+            });
+
+            // Retourner le message modifié avec les lignes nettoyées
+            return cleanedLines.join('\n');
+        }
+
+        // Message original
+        const originalMessage = `Titre 1 voyage
+
+Valable 1 heure dès réception du SMS
+Le 17.01.25
+De 16:23 à 17:23
+
+1.35 E
+
+77'57'89'42'08'88
+
+0764117899E9RL
+
+CGV : www.tcat.fr/cgv-ticket-sms`;
+
+        // Affichage du message original
+        document.getElementById('original-message').textContent = originalMessage;
+
+        // Action lors du clic sur le bouton pour générer le message modifié
+        document.getElementById('generateButton').addEventListener('click', function() {
+            const newMessage = updateMessageDetails(originalMessage);
+            const modifiedMessageElement = document.getElementById('modified-message');
+            modifiedMessageElement.textContent = newMessage;
+            modifiedMessageElement.classList.remove('fade-in'); // Retirer la classe avant d'ajouter pour que l'animation se relance
+            void modifiedMessageElement.offsetWidth; // Force le recalcul du layout pour réinitialiser l'animation
+            modifiedMessageElement.classList.add('fade-in');
+        });
+
+        // Action pour afficher le message original avec une animation
+        document.getElementById('toggleOriginalButton').addEventListener('click', function() {
+            const originalMessageElement = document.getElementById('original-message');
+            originalMessageElement.style.display = 'block'; // Afficher le message original
+            originalMessageElement.classList.remove('fade-in');
+            void originalMessageElement.offsetWidth;
+            originalMessageElement.classList.add('fade-in');
+        });
+    </script>
+</body>
+</html>
