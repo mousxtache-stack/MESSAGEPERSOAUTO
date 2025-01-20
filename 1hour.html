@@ -96,6 +96,7 @@
             width: 200px;
             margin-top: 7px;
             margin-bottom: 7px;
+            
         }
     </style>
 </head>
@@ -138,38 +139,35 @@
     
   <!-- partial -->
     <div class="container">
-        <h1>1H</h1>
-        <div>
-            <h2>Message :</h2>
-            <pre id="modified-message">1H</pre>
-        </div>
-
-        <!-- Boutons pour copier et envoyer le message -->
-        <div class="buttons">
-            <button class="bttnsend id="copyButton">Copier</button>
-            <button class="bttnsend" id="sendMessageButton">Envoyer par Message</button>
-        </div>
+        <h1>Message à Copier ou Envoyer</h1>
+        <p id="message">1H</p>
+        <button class="bttnsend" id="copyButton">Copier</button>
+        <button class="bttnsend" id="sendMessageButton">Ouvrir dans Message</button>
     </div>
 
     <script>
-        // Fonction pour copier le texte dans le presse-papier
+        // Fonction pour copier le message
         document.getElementById('copyButton').addEventListener('click', function() {
-            const text = document.getElementById('modified-message').textContent;
+            const message = document.getElementById('message').textContent;
+
+            // Créer un élément de texte temporaire pour copier
             const textArea = document.createElement('textarea');
-            textArea.value = text;
+            textArea.value = message;
             document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            alert('Message copié dans le presse-papier !');
+            textArea.select(); // Sélectionne le texte
+            document.execCommand('copy'); // Copie le texte dans le presse-papier
+            document.body.removeChild(textArea); // Supprime l'élément temporaire
+
+            alert('Message copié : ' + message); // Affiche une alerte
         });
 
-        // Action lors du clic sur le bouton pour envoyer un message
+        // Fonction pour ouvrir l'application de message avec le texte
         document.getElementById('sendMessageButton').addEventListener('click', function() {
-            const modifiedMessage = document.getElementById('modified-message').textContent;
+            const modifiedMessage = document.getElementById('message').textContent;
 
             // Préparer le numéro de téléphone
             const phoneNumber = "0764117899"; // Remplace par le numéro réel
+
             // Encoder le message pour qu'il soit adapté à une URL
             const encodedMessage = encodeURIComponent(modifiedMessage); 
 
